@@ -26,14 +26,14 @@ const SideNav = () => {
     ]
     const [activeIndex,setActiveIndex] = useState(0)
     return (
-        <div>
+        <div className='shadow-sm border-r h-full'>
             <div className='p-5 border-b'>
                 <Image src='logo.svg' width={50} height={50} />
             </div>
             <div className='flex flex-col float-left'>
 
                 {menuList.map((item, index) => (
-                    <button className='flex gap-2 p-4 px-0 hover:bg-gray-100 w-full text-gray-500'
+                    <button className={`flex gap-2 p-4 px-6 hover:bg-gray-100 w-full text-gray-500 ${activeIndex===index ? 'bg-blue-50 text-primary' : null}`}
                     onClick={()=>setActiveIndex(index)}
                     >
                         <item.icon/>
