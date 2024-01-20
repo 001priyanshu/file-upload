@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 import AlertMsg from './AlertMsg';
+import FilePreview from './FilePreview';
 const UploadForm = () => {
-    const [file,setFile] = useState();
-    const [errorMSg,setErrorMsg] = useState();
-    const onFileSelect=(e)=>{
-       if(e && e.size>2000000){
-        setErrorMsg('Maximum File Upload Size is 2MB')
-        return;
-       }
-       else {
-        setErrorMsg(null)
-        setFile(e)
-       }
+    const [file, setFile] = useState();
+    const [errorMSg, setErrorMsg] = useState();
+    const onFileSelect = (e) => {
+        if (e && e.size > 2000000) {
+            setErrorMsg('Maximum File Upload Size is 2MB')
+            return;
+        }
+        else {
+            setErrorMsg(null)
+            setFile(e)
+        }
     }
     return (
         <div className='text-center'>
@@ -26,11 +27,12 @@ const UploadForm = () => {
                         <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX Size: 2MB)</p>
                     </div>
                     <input id="dropzone-file" type="file" className="hidden"
-                    onChange={(event)=> onFileSelect(event.target.files[0])} />
+                        onChange={(event) => onFileSelect(event.target.files[0])} />
                 </label>
             </div>
-            {errorMSg ? <AlertMsg msg={errorMSg}/>: null}
-            
+            {errorMSg ? <AlertMsg msg={errorMSg} /> : null}
+            {file ? <FilePreview file={file} removeFile={()=>setFile(null)}/> : null}
+
             <button disabled={!file} className='p-2 bg-primary text-white w-[30%] rounded-full mt-5 disabled:bg-gray-400'>Upload</button>
         </div>
     )
