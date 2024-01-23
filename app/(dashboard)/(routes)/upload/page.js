@@ -1,11 +1,12 @@
 
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import UploadForm from './_components/UploadForm'
 import { app } from '@/firebaseConfig'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const Upload = () => {
+  const [progress,setProgress] = useState(0);
   const storage = getStorage(app)
   const uploadFile = (file) => {
     const metadata = {
@@ -16,8 +17,9 @@ const Upload = () => {
     uploadTask.on('state_changed',
     (snapshot) => {
       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log('Upload is ' + progress + '% done');
+      const cmpl = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      // console.log('Upload is ' + progress + '% done');
+      setProgress(cmpl)
 
      {
       progress==100&& getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -33,7 +35,7 @@ const Upload = () => {
       <h2 className='text-[20px] text-center m-5'>Start
         <strong className='text-primary'> Uploading </strong>  File and
         <strong className='text-primary'> Share </strong> it</h2>
-      <UploadForm uploadBtnClick={(file) => uploadFile(file)} />
+      <UploadForm uploadBtnClick={(file) => uploadFile(file)} progress={progress} />
     </div>
   )
 }
